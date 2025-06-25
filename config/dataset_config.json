@@ -1,6 +1,6 @@
 {
   "dataset_number": "dataset1",
- "features": [
+  "features": [
     "UED_Hospital_Census",
     "total_patient_count", 
     "patient_count_ESI_1_2",
@@ -35,10 +35,12 @@
   "covid_deletion": true,
   "covid_filter_start": "2020-04-01",
   "covid_filter_end": "2020-07-01",
-  "lag_N": 24,
+  "lag_features_config": {
+    "total_patient_count": 24,
+    "UED_Hospital_Census": 12
+  },
   "future_hours": 6,
-  "window_size": 4, 
+  "window_size": 4,
   "train_fraction": 0.7,
   "validation_fraction": 0.15
 }
-
