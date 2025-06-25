@@ -248,7 +248,7 @@ df_merged = extreme_indicator(df_merged, target_feature)
 df_merged.drop(columns=['weather_type', 'hourly_range', 'weather_description'], inplace=True, errors='ignore')
 
 # Create output directory
-future_hours_folder = f"{future_hours}hours"
+future_hours_folder = f"{future_hours}hours_{target_feature}"
 output_dir = os.path.join(DATASETS_PATH, future_hours_folder, dataset_number)
 os.makedirs(output_dir, exist_ok=True)
 print(f"📁 Created dataset directory: {output_dir}")
@@ -368,20 +368,47 @@ with open(explanation_path, 'w') as f:
     f.write(f"Dataset: {dataset_number}\n")
     f.write(f"Generated on: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
     f.write(f"Output path: {output_dir}\n\n")
+    
+    f.write(f"Unscaled and scaled versions of X and y are saved for train/val/test, and 3D npy arrays for DL.\n\n")
+    
     f.write(f"Lag configuration:\n")
     for feature, n_lags in lag_features_config.items():
         f.write(f"  - {feature}: {n_lags} lags\n")
+    
     f.write(f"\nTarget feature: {target_feature}\n")
     f.write(f"Target column: {actual_target_col_name}\n")
     f.write(f"Future hours: {future_hours}\n\n")
+    
     f.write(f"Dataset statistics:\n")
     f.write(f"  Total samples: {total_samples}\n")
     f.write(f"  Original features: {n_original_features}\n")
     f.write(f"  Lag features: {n_lag_features}\n")
     f.write(f"  Total features: {X_train_unscaled.shape[1]}\n\n")
-    f.write(f"Train/Val/Test split: {train_fraction}/{val_fraction}/{1-train_fraction-val_fraction}\n")
-    f.write(f"Scaled features: {len(columns_to_scale_features)}\n")
-    f.write(f"Feature order:\n{feature_columns_list}\n")
+    
+    f.write(f"Train/Val/Test split: {train_fraction}/{val_fraction}/{1-train_fraction-val_fraction}\n\n")
+    
+    f.write(f"Features scaled: {columns_to_scale_features}\n")
+    f.write(f"Number of features scaled: {len(columns_to_scale_features)}\n")
+    f.write(f"Scaler used: StandardScaler (feature and target)\n\n")
+    
+    f.write(f"DataFrame shapes:\n")
+    f.write(f"  X_train shape: {X_train_unscaled.shape}, X_val shape: {X_val_unscaled.shape}, X_test shape: {X_test_unscaled.shape}\n")
+    f.write(f"  y_train shape: {y_train_unscaled.shape}, y_val shape: {y_val_unscaled.shape}, y_test shape: {y_test_unscaled.shape}\n")
+    
+    # Add npy shapes
+    X_train_np_shape = (X_train_scaled.shape[0], X_train_scaled.shape[1], 1)
+    y_train_np_shape = (y_train_scaled.shape[0], 1)
+    X_val_np_shape = (X_val_scaled.shape[0], X_val_scaled.shape[1], 1)
+    y_val_np_shape = (y_val_scaled.shape[0], 1)
+    X_test_np_shape = (X_test_scaled.shape[0], X_test_scaled.shape[1], 1)
+    y_test_np_shape = (y_test_scaled.shape[0], 1)
+    
+    f.write(f"\nNumpy array shapes used for deep learning:\n")
+    f.write(f"  X_train_np shape: {X_train_np_shape}, y_train_np shape: {y_train_np_shape}\n")
+    f.write(f"  X_val_np shape: {X_val_np_shape}, y_val_np shape: {y_val_np_shape}\n")
+    f.write(f"  X_test_np shape: {X_test_np_shape}, y_test_np shape: {y_test_np_shape}\n\n")
+    
+    f.write(f"Feature order used (for model input):\n{feature_columns_list}\n")
 
 print("\n" + "="*60)
 print(f"✅ {dataset_number} SUCCESSFULLY GENERATED!")
