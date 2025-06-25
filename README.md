@@ -19,7 +19,9 @@
     <b>Data Preparation</b><br>
     <code>data_preparation.py</code><br>
     <span>
-      Processes and integrates data from various sources to generate structured datasets for model training and evaluation.
+      Processes and integrates data from various sources to generate structured datasets for model training and evaluation.<br>
+      <br>
+      <b>Note:</b> The code reads all data sources from the <code>data_source</code> folder. However, due to data access restrictions of our partner hospital, the original data sources are not included in this repository. Instead, a dummy dataset is provided for demonstration purposes. Stay tuned for updates.
     </span>
   </li>
   <li>
@@ -75,13 +77,16 @@
 </p>
 <pre><code>python data_preparation.py</code></pre>
 <p>
-  The script will process raw data, apply feature engineering, and generate structured datasets for model training and evaluation.<br>
+  The script will process data from the <code>data_source</code> folder, apply feature engineering, and generate structured datasets for model training and evaluation.<br>
   Make sure to update your configuration settings in <code>config/dataset_config.json</code> before running the script.
+</p>
+<p>
+  <b>Note:</b> Due to institutional data access restrictions, original hospital data is not shared. Dummy data is used in this repository for demonstration purposes.
 </p>
 
 <h2>Requirements</h2>
 <p>
-  Before running any scripts, please install the required dependencies:
+  Please install the required dependencies before running any scripts:
 </p>
 <pre><code>pip install tsai
 pip install optuna
@@ -92,7 +97,7 @@ pip install pandas
 pip install numpy
 </code></pre>
 <p>
-  Additional dependencies may be needed based on your environment (such as <code>joblib</code> or <code>seaborn</code>).
+  Additional dependencies such as <code>joblib</code> or <code>seaborn</code> may be required depending on your environment.
 </p>
 
 <h2>Quick Start</h2>
