@@ -23,7 +23,7 @@ DATASETS_FOLDER = os.path.join(BASE_PATH, "datasets")
 TRAINED_FOLDER = os.path.join(BASE_PATH, "trainedfiles")
 
 # Model names to evaluate
-MODEL_NAMES = ['TSTPlus']
+MODEL_NAMES = ['TSiTPlus','TSTPlus','FCNPlus','RNNPlus','ResNetPlus','XCMPlus','XceptionTimePlus']
 EPOCHS = 20
 MAX_LOSS_THRESHOLD = 100  # Threshold for pruning based on extreme MSE values
 
