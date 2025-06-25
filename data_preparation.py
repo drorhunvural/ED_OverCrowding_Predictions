@@ -371,6 +371,13 @@ with open(explanation_path, 'w') as f:
     
     f.write(f"Unscaled and scaled versions of X and y are saved for train/val/test, and 3D npy arrays for DL.\n\n")
     
+    # COVID deletion information
+    if covid_deletion:
+        f.write(f"COVID Period Deletion: YES\n")
+        f.write(f"  Deleted period: {covid_start} to {covid_end}\n\n")
+    else:
+        f.write(f"COVID Period Deletion: NO\n\n")
+    
     f.write(f"Lag configuration:\n")
     for feature, n_lags in lag_features_config.items():
         f.write(f"  - {feature}: {n_lags} lags\n")

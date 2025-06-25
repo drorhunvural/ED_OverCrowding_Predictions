@@ -26,18 +26,18 @@
     "weather_Clouds",
     "weather_Others",
     "weather_Rain",
+    "weather_Thunderstorm",
     "humidity",
     "wind_speed",
-    "weather_Thunderstorm",
     "extreme_indicator"
   ],
   "target_feature": "total_patient_count",
-  "covid_deletion": true,
+  "covid_deletion": false,
   "covid_filter_start": "2020-04-01",
   "covid_filter_end": "2020-07-01",
   "lag_features_config": {
     "total_patient_count": 24,
-    "UED_Hospital_Census": 12
+    "UED_Hospital_Census": 24
   },
   "future_hours": 6,
   "window_size": 4,
