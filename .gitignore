@@ -1,2 +1,4 @@
 data_sources/*.csv
-datasets
+**/datasets/
+tsai/
+**/config/

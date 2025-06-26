@@ -19,12 +19,13 @@ warnings.filterwarnings('ignore')
 # Define paths and folders for datasets, logs, and trained models
 BASE_PATH = "tsai" 
 LOG_FOLDER = os.path.join(BASE_PATH, "logs")
-DATASETS_FOLDER = os.path.join(BASE_PATH, "datasets")
+DATASETS_FOLDER = "datasets"  # Changed from os.path.join(BASE_PATH, "datasets")
 TRAINED_FOLDER = os.path.join(BASE_PATH, "trainedfiles")
 
 # Model names to evaluate
-MODEL_NAMES = ['TSiTPlus','TSTPlus','FCNPlus','RNNPlus','ResNetPlus','XCMPlus','XceptionTimePlus']
-EPOCHS = 20
+#MODEL_NAMES = ['TSiTPlus','TSTPlus','FCNPlus','RNNPlus','ResNetPlus','XCMPlus','XceptionTimePlus']
+MODEL_NAMES = ['TSiTPlus']
+EPOCHS = 200
 MAX_LOSS_THRESHOLD = 100  # Threshold for pruning based on extreme MSE values
 
 # Set a random seed for reproducibility
@@ -50,7 +51,7 @@ set_complete_random_seed(42)
 # Function to get available datasets in the hierarchical structure
 def get_datasets(base_path):
     """
-    Scan for datasets in the structure: base_path/Xhours/datasetY/
+    Scan for datasets in the structure: base_path/Xhours_feature/datasetY/
     Returns: {dataset_path: dataset_name} mapping
     """
     datasets = {}
@@ -59,17 +60,17 @@ def get_datasets(base_path):
         print(f"Warning: Base path {base_path} does not exist!")
         return datasets
     
-    # Scan for hour folders (e.g., 6hours, 8hours)
-    for hour_entry in os.scandir(base_path):
-        if hour_entry.is_dir() and hour_entry.name.endswith('hours'):
-            hour_folder = hour_entry.path
+    # Scan for hour_feature folders (e.g., 6hours_total_patient_count)
+    for hour_feature_entry in os.scandir(base_path):
+        if hour_feature_entry.is_dir() and 'hours_' in hour_feature_entry.name:
+            hour_feature_folder = hour_feature_entry.path
             
-            # Scan for dataset folders within each hour folder
-            for dataset_entry in os.scandir(hour_folder):
+            # Scan for dataset folders within each hour_feature folder
+            for dataset_entry in os.scandir(hour_feature_folder):
                 if dataset_entry.is_dir() and not dataset_entry.name.startswith("."):
                     dataset_path = dataset_entry.path
-                    # Create a unique name including the hour info
-                    dataset_name = f"{hour_entry.name}_{dataset_entry.name}"
+                    # Create a unique name including the hour_feature info
+                    dataset_name = f"{hour_feature_entry.name}_{dataset_entry.name}"
                     datasets[dataset_path] = dataset_name
     
     return datasets
@@ -243,10 +244,10 @@ def create_objective(model_name, dataset_path, dataset_name):
         
         try:
             # Hyperparameter suggestions
-            lr = trial.suggest_float("lr", 1e-4, 0.05, log=True)
+            lr = trial.suggest_float("lr", 1e-4, 0.1, log=True)
             dropout = trial.suggest_float("dropout", 0.0, 0.3)
             wd = trial.suggest_float("wd", 0.0, 0.2)
-            opt_func = trial.suggest_categorical("opt_func", [Adam, Lamb])
+            opt_func = trial.suggest_categorical("opt_func", [Adam, SGD, Lamb])
             fusion_act = trial.suggest_categorical("fusion_act", ['relu', 'gelu', 'silu'])
             batchsize = trial.suggest_categorical("batchsize", [32, 64])
             fusion_layers = trial.suggest_int("fusion_layers", 128, 512, step=64)
@@ -451,71 +452,71 @@ def create_objective(model_name, dataset_path, dataset_name):
 # Main execution function 
 def main():
     parser = argparse.ArgumentParser(description='Train time series models with Optuna optimization')
-    parser.add_argument('--hours', type=str, default='6hours',
-                       help='Hour folder to use (e.g., 6hours, 8hours). Default: 6hours')
+    parser.add_argument('--hours_feature', type=str, default='6hours_total_patient_count',
+                       help='Hour-feature folder to use (e.g., 6hours_total_patient_count). Default: 6hours_total_patient_count')
     parser.add_argument('--dataset', type=str, default=None,
-                       help='Specific dataset to train on (e.g., dataset1). If not provided, trains on all datasets in the hour folder.')
+                       help='Specific dataset to train on (e.g., dataset15). If not provided, trains on all datasets in the hour-feature folder.')
     args = parser.parse_args()
     
     print("Starting optimization process")
     print(f"Models to evaluate: {MODEL_NAMES}")
     print(f"Maximum epochs per trial: {EPOCHS}")
     print(f"MSE threshold for pruning: {MAX_LOSS_THRESHOLD}")
-    print(f"Hour folder: {args.hours}")
+    print(f"Hour-feature folder: {args.hours_feature}")
     
-    # Construct the base path for the specified hour folder
-    hour_folder_path = os.path.join(DATASETS_FOLDER, args.hours)
+    # Construct the base path for the specified hour-feature folder
+    hour_feature_folder_path = os.path.join(DATASETS_FOLDER, args.hours_feature)
     
-    if not os.path.exists(hour_folder_path):
-        print(f"Error: Hour folder '{hour_folder_path}' does not exist!")
+    if not os.path.exists(hour_feature_folder_path):
+        print(f"Error: Hour-feature folder '{hour_feature_folder_path}' does not exist!")
         
-        # Show available hour folders
+        # Show available hour-feature folders
         if os.path.exists(DATASETS_FOLDER):
-            available_hours = [d for d in os.listdir(DATASETS_FOLDER) 
-                             if os.path.isdir(os.path.join(DATASETS_FOLDER, d)) and d.endswith('hours')]
-            if available_hours:
-                print(f"Available hour folders in '{DATASETS_FOLDER}':")
-                for hour_folder in sorted(available_hours):
-                    print(f"  - {hour_folder}")
+            available_folders = [d for d in os.listdir(DATASETS_FOLDER) 
+                               if os.path.isdir(os.path.join(DATASETS_FOLDER, d)) and 'hours_' in d]
+            if available_folders:
+                print(f"Available hour-feature folders in '{DATASETS_FOLDER}':")
+                for folder in sorted(available_folders):
+                    print(f"  - {folder}")
             else:
-                print(f"No hour folders found in '{DATASETS_FOLDER}'")
+                print(f"No hour-feature folders found in '{DATASETS_FOLDER}'")
         return
     
     # Determine which datasets to process
     if args.dataset:
         # Train on specific dataset
-        specific_dataset_path = os.path.join(hour_folder_path, args.dataset)
+        specific_dataset_path = os.path.join(hour_feature_folder_path, args.dataset)
         if not os.path.exists(specific_dataset_path):
             print(f"Error: Dataset folder '{specific_dataset_path}' does not exist!")
             
-            # Show available datasets in the hour folder
-            if os.path.exists(hour_folder_path):
-                available_datasets = [d for d in os.listdir(hour_folder_path) 
-                                    if os.path.isdir(os.path.join(hour_folder_path, d))]
+            # Show available datasets in the hour-feature folder
+            if os.path.exists(hour_feature_folder_path):
+                available_datasets = [d for d in os.listdir(hour_feature_folder_path) 
+                                    if os.path.isdir(os.path.join(hour_feature_folder_path, d))]
                 if available_datasets:
-                    print(f"Available datasets in '{hour_folder_path}':")
+                    print(f"Available datasets in '{hour_feature_folder_path}':")
                     for dataset in sorted(available_datasets):
                         print(f"  - {dataset}")
                 else:
-                    print(f"No datasets found in '{hour_folder_path}'")
+                    print(f"No datasets found in '{hour_feature_folder_path}'")
             return
         
-        dataset_paths = [(specific_dataset_path, f"{args.hours}_{args.dataset}")]
-        print(f"Training on specific dataset: {args.dataset} in {args.hours}")
+        dataset_paths = [(specific_dataset_path, f"{args.hours_feature}_{args.dataset}")]
+        print(f"Training on specific dataset: {args.dataset} in {args.hours_feature}")
     else:
-        # Train on all datasets in the hour folder
-        print(f"Searching for all datasets in {hour_folder_path}...")
+        # Train on all datasets in the hour-feature folder
+        print(f"Searching for all datasets in {hour_feature_folder_path}...")
         dataset_paths = []
         
-        if os.path.exists(hour_folder_path):
-            for dataset_folder in os.listdir(hour_folder_path):
-                dataset_path = os.path.join(hour_folder_path, dataset_folder)
+        if os.path.exists(hour_feature_folder_path):
+            for dataset_folder in os.listdir(hour_feature_folder_path):
+                dataset_path = os.path.join(hour_feature_folder_path, dataset_folder)
                 if os.path.isdir(dataset_path) and not dataset_folder.startswith('.'):
-                    dataset_name = f"{args.hours}_{dataset_folder}"
+                    dataset_name = f"{args.hours_feature}_{dataset_folder}"
                     dataset_paths.append((dataset_path, dataset_name))
         
         if not dataset_paths:
-            print(f"No datasets found in '{hour_folder_path}'")
+            print(f"No datasets found in '{hour_feature_folder_path}'")
             return
         
         print(f"Found {len(dataset_paths)} datasets to process:")
@@ -553,7 +554,7 @@ def main():
             
             # Run optimization
             print(f"Starting optimization with 50 trials")
-            study.optimize(create_objective(model_name, dataset_path, dataset_name), n_trials=2)
+            study.optimize(create_objective(model_name, dataset_path, dataset_name), n_trials=70)
             
             # Save study results
             dataset_log_folder = os.path.join(LOG_FOLDER, dataset_name)
@@ -593,8 +594,8 @@ if __name__ == "__main__":
     main()
 
 # Usage Examples:
-# python train.py --hours 6hours --dataset dataset1        # Train only on dataset1 in 6hours folder
-# python train.py --hours 6hours                           # Train on all datasets in 6hours folder  
-# python train.py --dataset dataset1                       # Train only on dataset1 in default 6hours folder
-# python train.py                                          # Train on all datasets in default 6hours folder
-# python train.py --hours 8hours --dataset dataset2       # Train only on dataset2 in 8hours folder
+# python train.py --hours_feature 6hours_total_patient_count --dataset dataset15     # Train only on dataset15
+# python train.py --hours_feature 6hours_total_patient_count                         # Train on all datasets in folder  
+# python train.py --dataset dataset15                                                # Train only on dataset15 in default folder
+# python train.py                                                                    # Train on all datasets in default folder
+# python train.py --hours_feature 12hours_boarding_count --dataset dataset20         # Train on different hour-feature folder
