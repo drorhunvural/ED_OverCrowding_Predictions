@@ -164,15 +164,26 @@ read_csv = lambda filename: pd.read_csv(os.path.join(DATA_SOURCES_PATH, filename
 
 print(f"\nLoading data files from: {DATA_SOURCES_PATH}")
 
-# Load data files with UPDATED file names
+# Track data source files used
+data_source_files = {
+    'patient_count': 'df_UED_Total_Patient_Count_Average_Waiting_Time_ESI_Weather_39440_V3.csv',
+    'hospital_census': 'df_UED_Hospital_Census_V1.csv',
+    'treatment': 'df_UED_Treatment_Count_Average_Treatment_Time_V3.csv',
+    'boarding': 'df_UED_Boarding_Count_Average_Boarding_Time_V8.csv',
+    'alabama_game': 'df_UED_Alabama_Crimson_football_game_V1.csv',
+    'auburn_game': 'df_UED_auburn_football_game_V1.csv',
+    'holidays': 'federalholidays_2019_2023_V1.csv'
+}
+
+# Load data files
 try:
-    df_patient_average_count = read_csv('df_UED_Total_Patient_Count_Average_Waiting_Time_ESI_Weather_39440_V3.csv')
-    df_UED_hospital_census = read_csv('df_UED_Hospital_Census_V1.csv')
-    df_treatment_average_count = read_csv('df_UED_Treatment_Count_Average_Treatment_Time_V3.csv')
-    df_boarding = read_csv('df_UED_Boarding_Count_Average_Boarding_Time_V8.csv')
-    df_alabama_game = read_csv('df_UED_Alabama_Crimson_football_game_V1.csv')
-    df_auburn_game = read_csv('df_UED_auburn_football_game_V1.csv')
-    df_holidays = read_csv('federalholidays_2019_2023_V1.csv')
+    df_patient_average_count = read_csv(data_source_files['patient_count'])
+    df_UED_hospital_census = read_csv(data_source_files['hospital_census'])
+    df_treatment_average_count = read_csv(data_source_files['treatment'])
+    df_boarding = read_csv(data_source_files['boarding'])
+    df_alabama_game = read_csv(data_source_files['alabama_game'])
+    df_auburn_game = read_csv(data_source_files['auburn_game'])
+    df_holidays = read_csv(data_source_files['holidays'])
     print("✅ All data files loaded successfully")
 except Exception as e:
     print(f"❌ Error loading data files: {str(e)}")
@@ -368,6 +379,12 @@ with open(explanation_path, 'w') as f:
     f.write(f"Dataset: {dataset_number}\n")
     f.write(f"Generated on: {pd.Timestamp.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
     f.write(f"Output path: {output_dir}\n\n")
+    
+    # Data Sources Used section
+    f.write(f"Data Sources Used:\n")
+    for filename in data_source_files.values():
+        f.write(f"  - {filename}\n")
+    f.write(f"\n")
     
     f.write(f"Unscaled and scaled versions of X and y are saved for train/val/test, and 3D npy arrays for DL.\n\n")
     
