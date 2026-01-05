@@ -10,30 +10,35 @@
 
 <h2>Project Overview</h2>
 <p>
-  This project presents a deep learning–based framework for predicting Emergency Department (ED) patient flow metrics,
-  including waiting counts and related overcrowding indicators. The repository provides a complete machine learning
-  pipeline, covering data preparation, model training, evaluation, and prediction.
+  This project presents a deep learning–based framework for predicting Emergency Department (ED)
+  patient flow metrics, including waiting counts and overcrowding-related indicators.
+  The repository provides a complete machine learning pipeline covering data preparation,
+  model training, evaluation, and prediction.
 </p>
 
 <h2>Project Structure</h2>
+
 <ol>
   <li>
     <b>Data Preparation</b><br>
-    <code>data_preparation.py</code><br>
-    <span>
-      Processes and integrates data from multiple sources to generate structured datasets suitable for model training and evaluation.
-      <br><br>
-      <b>Note:</b> All data sources are expected to be placed in the <code>data_source</code> folder. Due to data privacy
-      and institutional restrictions, original hospital data is not included in this repository. Synthetic or dummy data
-      is provided for demonstration and reproducibility purposes.
-    </span>
+    <code>data_preparation.py</code>
+    <p>
+      Processes and integrates data from multiple sources to generate structured datasets
+      for model training and evaluation.
+    </p>
+    <p>
+      <b>Note:</b> All data sources are expected to be placed in the
+      <code>data_source</code> folder. Due to institutional data privacy restrictions,
+      original hospital data is not included in this repository. Synthetic or dummy data
+      is provided for demonstration purposes only.
+    </p>
   </li>
 
   <li>
     <b>Training</b>
     <ul>
       <li>
-        <code>train_tsai.py</code> — Train deep learning time-series models using the TSAI library, including:
+        <code>train_tsai.py</code> — Train deep learning time-series models using the TSAI library:
         <ul>
           <li>TSiTPlus</li>
           <li>TSTPlus</li>
@@ -66,18 +71,18 @@
 
   <li>
     <b>Evaluation</b><br>
-    <code>evaluate_tsai.py</code><br>
-    <span>
-      Evaluates trained models using standard performance metrics as well as extreme-case and stress-condition analyses.
-    </span>
+    <code>evaluate_tsai.py</code>
+    <p>
+      Evaluates trained models using standard performance metrics and extreme-case analyses.
+    </p>
   </li>
 
   <li>
     <b>Prediction</b><br>
-    <code>predict_tsai.py</code><br>
-    <span>
+    <code>predict_tsai.py</code>
+    <p>
       Generates predictions for new or unseen data using trained and saved models.
-    </span>
+    </p>
   </li>
 </ol>
 
@@ -85,23 +90,24 @@
 <p>
   To prepare the dataset, run:
 </p>
+
 <pre><code>python data_preparation.py</code></pre>
+
 <p>
-  This script reads data from the <code>data_source</code> directory, applies feature engineering and preprocessing steps,
-  and produces structured datasets for training and evaluation.
-  <br><br>
-  Ensure that the configuration parameters in <code>config/dataset_config.json</code> are properly set before execution.
+  This script reads data from the <code>data_source</code> directory, applies feature engineering
+  and preprocessing steps, and produces structured datasets for training and evaluation.
 </p>
 
 <p>
-  <b>Important:</b> Due to institutional data access restrictions, original hospital data cannot be shared.
-  Dummy data is included solely for demonstration and testing purposes.
+  Ensure that configuration parameters in
+  <code>config/dataset_config.json</code> are properly set before execution.
 </p>
 
 <h2>Requirements</h2>
 <p>
-  Install the required dependencies before running the scripts:
+  Install the required dependencies before running any scripts:
 </p>
+
 <pre><code>pip install tsai
 pip install optuna
 pip install torch
@@ -112,7 +118,7 @@ pip install numpy
 </code></pre>
 
 <p>
-  Additional dependencies such as <code>joblib</code> may be required depending on your environment and configuration.
+  Additional dependencies such as <code>joblib</code> may be required depending on your environment.
 </p>
 
 <h2>Quick Start</h2>
@@ -125,7 +131,7 @@ pip install numpy
 
 <h2>Citation</h2>
 <p>
-  If you use this code or find this project helpful in your research, please cite the following paper:
+  If you use this code or find this project helpful in your research, please cite:
 </p>
 
 <p>
