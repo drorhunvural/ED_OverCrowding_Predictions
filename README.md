@@ -113,9 +113,9 @@ pip install numpy
   If you use this code or find this project helpful in your research, please cite our work.<br>
   
   
-[1] Vural, O., Ozaydin, B., Aram, K. Y., Booth, J., Lindsey, B. F., & Ahmed, A. (2025). An Artificial Intelligence–Based Framework for Predicting Emergency Department Overcrowding: Development and Evaluation Study. JMIR Medical Informatics, 13, e73960.
+<br>[1]</br> Vural, O., Ozaydin, B., Aram, K. Y., Booth, J., Lindsey, B. F., & Ahmed, A. (2025). An Artificial Intelligence–Based Framework for Predicting Emergency Department Overcrowding: Development and Evaluation Study. JMIR Medical Informatics, 13, e73960.
 
-[2] Vural, O., Ozaydin, B., Booth, J., Lindsey, B. F., & Ahmed, A. (2025, September). Deep Learning-Based Forecasting of Boarding Patient Counts to Address Emergency Department Overcrowding. In Informatics (Vol. 12, No. 3, p. 95). MDPI.
+<br>[2]</br> Vural, O., Ozaydin, B., Booth, J., Lindsey, B. F., & Ahmed, A. (2025, September). Deep Learning-Based Forecasting of Boarding Patient Counts to Address Emergency Department Overcrowding. In Informatics (Vol. 12, No. 3, p. 95). MDPI.
 
   
 </p>
