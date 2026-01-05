@@ -1,94 +1,118 @@
-ED_OverCrowding_Predictions
-Project Overview
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ED_OverCrowding_Predictions</title>
+</head>
+<body>
 
-This project presents a deep learning–based framework for predicting Emergency Department (ED) patient flow metrics, including waiting counts and overcrowding-related indicators. The repository provides a complete machine learning pipeline covering data preparation, model training, evaluation, and prediction.
+<h1>ED_OverCrowding_Predictions</h1>
 
-Project Structure
-1. Data Preparation
+<h2>Project Overview</h2>
+<p>
+  This project develops a deep learning approach to predict Emergency Department (ED) patient flow metrics, such as waiting count, using a complete machine learning pipeline from data preparation to evaluation.
+</p>
 
-Script: data_preparation.py
+<h2>Project Structure</h2>
+<ol>
+  <li>
+    <b>Data Preparation</b><br>
+    <code>data_preparation.py</code><br>
+    <span>
+      Processes and integrates data from various sources to generate structured datasets for model training and evaluation.<br>
+      <br>
+      <b>Note:</b> The code reads all data sources from the <code>data_source</code> folder. However, due to data access restrictions of our partner hospital, the original data sources are not included in this repository. Instead, a dummy dataset is provided for demonstration purposes. Stay tuned for updates.
+    </span>
+  </li>
+  <li>
+    <b>Training</b>
+    <ul>
+      <li>
+        <code>train_tsai.py</code> — Train deep learning models from the TSAI library, including:
+        <ul>
+          <li>TSiTPlus</li>
+          <li>TSTPlus</li>
+          <li>FCNPlus</li>
+          <li>RNNPlus</li>
+          <li>ResNetPlus</li>
+          <li>XCMPlus</li>
+          <li>XceptionTimePlus</li>
+        </ul>
+      </li>
+      <li>
+        <code>train_RNNbased.py</code> — Train RNN-based models:
+        <ul>
+          <li>BiLSTM</li>
+          <li>Seq2SeqLSTM</li>
+          <li>VanillaLSTM</li>
+        </ul>
+      </li>
+      <li>
+        <code>train_randomforest.py</code> — Train a Random Forest model.
+      </li>
+      <li>
+        <code>train_xgboost.py</code> — Train an XGBoost model.
+      </li>
+    </ul>
+  </li>
+  <li>
+    <b>Evaluation</b><br>
+    <code>evaluate_tsai.py</code><br>
+    <span>
+      Evaluate trained models on test data using standard metrics and extreme-case analysis.
+    </span>
+  </li>
+  <li>
+    <b>Prediction</b><br>
+    <code>predict_tsai.py</code><br>
+    <span>
+      Generate predictions using trained models for new or unseen data.
+    </span>
+  </li>
+</ol>
 
-Processes and integrates data from multiple sources to generate structured datasets for model training and evaluation.
+<h2>Data Preparation</h2>
+<p>
+  To prepare your dataset, run the following command:
+</p>
+<pre><code>python data_preparation.py</code></pre>
+<p>
+  The script will process data from the <code>data_source</code> folder, apply feature engineering, and generate structured datasets for model training and evaluation.<br>
+  Make sure to update your configuration settings in <code>config/dataset_config.json</code> before running the script.
+</p>
+<p>
+  <b>Note:</b> Due to institutional data access restrictions, original hospital data is not shared. Dummy data is used in this repository for demonstration purposes.
+</p>
 
-Note:
-All data sources are expected to be placed in the data_source folder. Due to institutional data privacy restrictions, original hospital data is not included in this repository. Synthetic or dummy data is provided for demonstration purposes only.
-
-2. Training
-
-train_tsai.py — Train deep learning time-series models using the TSAI library:
-
-TSiTPlus
-
-TSTPlus
-
-FCNPlus
-
-RNNPlus
-
-ResNetPlus
-
-XCMPlus
-
-XceptionTimePlus
-
-train_RNNbased.py — Train recurrent neural network–based models:
-
-BiLSTM
-
-Seq2Seq LSTM
-
-Vanilla LSTM
-
-train_randomforest.py — Train a Random Forest regression model
-
-train_xgboost.py — Train an XGBoost regression model
-
-3. Evaluation
-
-Script: evaluate_tsai.py
-
-Evaluates trained models using standard performance metrics and extreme-case analyses.
-
-4. Prediction
-
-Script: predict_tsai.py
-
-Generates predictions for new or unseen data using trained and saved models.
-
-Data Preparation
-
-To prepare the dataset, run:
-
-python data_preparation.py
-
-This script reads data from the data_source directory, applies feature engineering and preprocessing steps, and produces structured datasets for training and evaluation. Make sure the configuration parameters in config/dataset_config.json are properly set before execution.
-
-Requirements
-
-pip install tsai
+<h2>Requirements</h2>
+<p>
+  Please install the required dependencies before running any scripts:
+</p>
+<pre><code>pip install tsai
 pip install optuna
 pip install torch
 pip install scikit-learn
 pip install matplotlib
 pip install pandas
 pip install numpy
+</code></pre>
+<p>
+  Additional dependencies such as <code>joblib</code> or <code>seaborn</code> may be required depending on your environment.
+</p>
 
-Additional dependencies such as joblib may be required depending on your environment and configuration.
+<h2>Quick Start</h2>
+<ul>
+  <li>Prepare the data: <code>python data_preparation.py</code></li>
+  <li>Train a model: <code>python train_tsai.py</code></li>
+  <li>Evaluate a model: <code>python evaluate_tsai.py</code></li>
+  <li>Make predictions: <code>python predict_tsai.py</code></li>
+</ul>
 
-Quick Start
+<h2>Citation</h2>
+<p>
+  If you use this code or find this project helpful in your research, please cite our work.<br>
+  <b>Stay tuned—our paper is currently under review and will be available soon.</b>
+</p>
 
-Prepare the data: python data_preparation.py
-
-Train a model: python train_tsai.py
-
-Evaluate a model: python evaluate_tsai.py
-
-Generate predictions: python predict_tsai.py
-
-Citation
-
-If you use this code or find this project helpful in your research, please cite:
-
-Vural, O., Ozaydin, B., Aram, K. Y., Booth, J., Lindsey, B. F., & Ahmed, A. (2025).
-An Artificial Intelligence–Based Framework for Predicting Emergency Department Overcrowding: Development and Evaluation Study.
-JMIR Medical Informatics, 13, e73960.
+</body>
+</html>
