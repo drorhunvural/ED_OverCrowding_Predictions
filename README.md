@@ -21,7 +21,9 @@
     <span>
       Processes and integrates data from various sources to generate structured datasets for model training and evaluation.<br>
       <br>
-      <b>Note:</b> The code reads all data sources from the <code>data_source</code> folder. However, due to data access restrictions of our partner hospital, the original data sources are not included in this repository. Instead, a dummy dataset is provided for demonstration purposes. Stay tuned for updates.
+      <b>Note:</b> The code reads all data sources from the <code>data_source</code> folder. However,
+        Vural, O., Ozaydin, B., Aram, K. Y., Booth, J., Lindsey, B. F., & Ahmed, A. (2025). An Artificial Intelligence–Based Framework for Predicting Emergency Department Overcrowding: Development and Evaluation Study. JMIR Medical Informatics, 13, e73960.
+      
     </span>
   </li>
   <li>
