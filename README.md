@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>ED_OverCrowding_Predictions</title>
+
 </head>
 <body>
 
@@ -111,7 +111,9 @@ pip install numpy
 <h2>Citation</h2>
 <p>
   If you use this code or find this project helpful in your research, please cite our work.<br>
-  <b>Stay tuned—our paper is currently under review and will be available soon.</b>
+  <b>
+Vural, O., Ozaydin, B., Aram, K. Y., Booth, J., Lindsey, B. F., & Ahmed, A. (2025). An Artificial Intelligence–Based Framework for Predicting Emergency Department Overcrowding: Development and Evaluation Study. JMIR Medical Informatics, 13, e73960.
+  </b>
 </p>
 
 </body>
